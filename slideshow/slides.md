@@ -1,24 +1,87 @@
 ---
 theme: dracula
-title: Intro to Homelabbing with Docker
+title: Intro to Home Labbing Part 1
+layout: cover
+drawings:
+  enabled: false
 info: |
   Workshop deck covering SSH access, Docker install, Docker Compose basics,
   and deploying Homarr on a VPS.
 ---
+
+<style>
+.slidev-layout h1,
+.slidev-layout h2,
+.slidev-layout h3 {
+  line-height: 1.15;
+  margin-bottom: 0.42em;
+}
+
+.slidev-layout h1 + p,
+.slidev-layout h1 + ul,
+.slidev-layout h1 + ol,
+.slidev-layout h1 + pre,
+.slidev-layout h2 + p,
+.slidev-layout h2 + ul,
+.slidev-layout h2 + ol,
+.slidev-layout h2 + pre,
+.slidev-layout h3 + p,
+.slidev-layout h3 + ul,
+.slidev-layout h3 + ol,
+.slidev-layout h3 + pre {
+  margin-top: 0.38em;
+}
+
+.slidev-layout p,
+.slidev-layout li,
+.slidev-layout td,
+.slidev-layout th {
+  font-size: 1.12em;
+  line-height: 1.45;
+}
+
+.slidev-layout ul,
+.slidev-layout ol {
+  margin-top: 0.4em;
+  margin-bottom: 0.65em;
+}
+
+.slidev-layout pre {
+  font-size: 1.04em;
+  margin-top: 0.72em;
+  margin-bottom: 0.72em;
+  padding: 0.65em 0.85em;
+  border-radius: 10px;
+}
+
+.slidev-layout pre + pre {
+  margin-top: 0.95em;
+}
+
+.slidev-layout code {
+  font-size: 1.03em;
+}
+</style>
 
 <script setup>
 import csecLogo from './images/UTS.CSS-logo-white.png'
 import progsocLogo from './images/progsoc-white.png'
 </script>
 
-# Intro to Homelabbing with Docker
-## From SSH to a running Homarr stack
+# Intro to Home Labbing Part 1
+## SSH, Docker, and Compose on a VPS
 
-<div style="margin-top:18px;display:flex;align-items:center;justify-content:center;gap:28px;">
+<div style="position:absolute;left:50%;bottom:26px;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:28px;">
   <img :src="csecLogo" alt="UTS Cyber Security Society" style="height:64px;width:auto;object-fit:contain;" />
   <div style="width:2px;height:56px;background:#6272a4;opacity:0.8;"></div>
   <img :src="progsocLogo" alt="ProgSoc" style="height:78px;width:auto;object-fit:contain;" />
 </div>
+
+<!--
+- Welcome everyone and set expectations: beginner friendly, hands-on.
+- Mention this is Part 1 and today we focus on fundamentals.
+- 1 minute.
+-->
 
 ---
 
@@ -57,160 +120,337 @@ import volkisLogo from './images/Volkis_Logo.png'
 </div>
 </div>
 
+<!--
+- Thank sponsors briefly.
+- Keep this slide short: 20-30 seconds.
+-->
+
+---
+
+<script setup>
+import workshopQr from './images/github-pages-qr.png'
+</script>
+
+## Slides Link
+
+Scan to open the live workshop slides:
+
+`https://progsoc.github.io/intro-homelabbing/`
+
+<div style="margin-top:12px;display:flex;justify-content:center;">
+  <img :src="workshopQr" alt="QR code for intro-homelabbing pages" style="height:220px;width:220px;border-radius:12px;background:#fff;padding:10px;" />
+</div>
+
+<!--
+- Ask everyone to scan now and keep the tab open.
+- Mention this link is for slides/docs and updates after each push.
+- 30-45 seconds.
+-->
+
+---
+layout: section
+---
+
+# What We Will Build
+
+<!--
+- Transition slide for the workshop roadmap.
+- 10 seconds.
+-->
+
 ---
 
 ## Session Goals
 
 - Log into a Linux VPS over SSH
-- Install Docker Engine + Compose plugin
-- Understand Docker Compose file structure
+- Install Docker Engine and Docker Compose
+- Learn core Compose syntax and commands
 - Deploy Homarr with one `compose.yaml`
+
+<!--
+- Mention this is practical and students should run commands as you do.
+- 1 minute.
+-->
 
 ---
 
 ## Prerequisites
 
-- A VPS (Ubuntu 22.04/24.04 recommended)
-- SSH access (IP, username, and password from handout)
-- Local terminal on Linux/macOS/Windows
-- A Tailscale, VPN, or trusted network plan (recommended)
+- Workshop handout with server IP, username, and password
+- Local terminal (Linux/macOS/Windows)
+- Stable internet connection
+
+<!--
+- Ask everyone to confirm they can see their handout details.
+- If anyone is missing details, pause early.
+- 1 minute.
+-->
 
 ---
 
-## 1) Get Connected to the VPS
+<script setup>
+import repoQr from './images/github-repo-qr.png'
+</script>
 
-Find these details from your provider:
+## Get the Workshop Files
 
-- Server IP or DNS name
-- SSH user (often `root` or `ubuntu`)
-- Authentication method (password for this workshop)
+You can run this right after you log in to your VPS.
 
-Test network reachability:
+Option A (recommended): clone with Git
 
 ```bash
-ping -c 3 <vps-ip>
+git clone https://github.com/ProgSoc/intro-homelabbing.git
+cd intro-homelabbing
 ```
+
+Option B: in GitHub, click `Code` -> `Download ZIP`, then extract it.
+
+Repo URL:
+
+`https://github.com/ProgSoc/intro-homelabbing`
+
+<div style="margin-top:8px;display:flex;justify-content:center;">
+  <img :src="repoQr" alt="QR code for intro-homelabbing repository" style="height:180px;width:180px;border-radius:12px;background:#fff;padding:8px;" />
+</div>
+
+<!--
+- Mention Git option is easiest for future updates (`git pull`).
+- If `git` is missing on VPS: `sudo apt install -y git`.
+- If someone used ZIP, that is completely fine for this workshop.
+- 1 minute.
+-->
+
+---
+layout: section
+---
+
+# 1) Connect to the VPS
+
+<!--
+- Start of first practical block.
+- 10 seconds.
+-->
 
 ---
 
-## Workshop Login Method (Password)
+## Login Method (Password)
 
-For this workshop, everyone logs in with the provided password:
+For this workshop, everyone logs in with password auth:
 
 ```bash
 ssh <user>@<vps-ip>
 ```
 
-Accept host key prompt on first login, then enter password.
+On first connection, type `yes` at the host key prompt, then enter password.
+
+<!--
+- Remind students password won't show while typing.
+- Common issue: wrong username (`root` vs `ubuntu`).
+- If login fails, verify username first, then password.
+- 2 minutes.
+-->
 
 ---
 
-## Log In to the VPS
+## First Checks After Login
 
 ```bash
-ssh <user>@<vps-ip>
-```
-
-First-run checks:
-
-```bash
+# Show who you are logged in as
 whoami
+```
+
+```bash
+# Show host details (hostname, kernel, architecture)
 hostnamectl
+```
+
+```bash
+# Show Linux distro and version
 lsb_release -a
 ```
 
+<!--
+- Confirm everyone is logged into the expected account.
+- If `lsb_release` is missing, run `cat /etc/os-release` instead.
+- 2-3 minutes.
+-->
+
+---
+layout: section
 ---
 
-## 2) Install Docker (Convenience Script)
+# 2) Install Docker
+
+<!--
+- Transition to installation block.
+-->
+
+---
+
+## Install Docker (Convenience Script)
 
 ```bash
 sudo apt update && sudo apt upgrade -y
+```
+
+```bash
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 rm get-docker.sh
 ```
 
+<!--
+- Run update first, then install script.
+- Mention convenience script is workshop-friendly and quick.
+- 5 minutes (allow slower VPSs).
+-->
+
 ---
 
 ## Post-install Setup
 
+Start Docker now and on boot:
+
 ```bash
 sudo systemctl enable --now docker
+sudo systemctl status docker --no-pager
 ```
 
 For this workshop, run Docker commands with `sudo`.
 
+<!--
+- Point out active/running in systemctl output.
+- If not running, check logs with `journalctl -u docker`.
+- 2 minutes.
+-->
+
 ---
 
-## Verify Docker + Compose
+## Post-install Verification
+
+Check Docker and Compose:
 
 ```bash
 sudo docker version
 sudo docker compose version
+```
+
+Run a test container:
+
+```bash
 sudo docker run --rm hello-world
 ```
 
+Expected output includes: `Hello from Docker!`
+
+<!--
+- This is the confidence checkpoint before moving on.
+- If image pull fails, usually DNS/internet issue on the VPS.
+- 3 minutes.
+-->
+
+---
+layout: section
 ---
 
-## 3) Docker Compose Syntax at a Glance
+# 3) Docker Compose Basics
 
-A Compose file usually has:
+<!--
+- Transition to Compose concepts.
+-->
 
-- `services`: the containers to run
-- `volumes`: persistent data locations
-- `networks`: container networking rules
-- optional `environment`, `ports`, `depends_on`, `restart`
+---
+
+## Compose File Essentials
+
+- `services`: containers to run
+- `ports`: host-to-container port mapping
+- `volumes`: persist data on disk
+- `environment`: configuration/secrets
+- `restart`: restart policy after crashes/reboots
+
+<!--
+- Keep this conceptual and quick.
+- Mention YAML indentation is critical.
+- Compose is declarative: the file is your desired state.
+- 2 minutes.
+-->
 
 ---
 
 ## Compose Anatomy Example
 
 ```yaml
-# Top-level section listing all containers in this stack
+# Top-level section listing all containers
 services:
-  # Service name (used by Compose for DNS and management)
+  # Service name used by Compose
   web:
-    # Container image to run: <repo>:<tag>
+    # Image to run: <repo>:<tag>
     image: nginx:alpine
     # Port mapping: <host-port>:<container-port>
     ports:
       - "8080:80"
-    # Restart policy when Docker/host restarts
+    # Restart automatically unless manually stopped
     restart: unless-stopped
     # Bind mount: <host-path>:<container-path>:<mode>
     volumes:
       - ./html:/usr/share/nginx/html:ro
 ```
 
----
-
-## Common Compose Commands
-
-```bash
-sudo docker compose up -d        # start in background
-sudo docker compose ps           # show running services
-sudo docker compose logs -f      # tail logs
-sudo docker compose pull         # fetch latest images
-sudo docker compose down         # stop + remove containers
-```
+<!--
+- Walk line by line.
+- Explain why `:ro` is useful for static content.
+- 3 minutes.
+-->
 
 ---
 
-## 4) Deploy Homarr with Compose
-
-On the VPS:
+## Commands You Will Use Most
 
 ```bash
-mkdir -p ~/stacks/homarr
-cd ~/stacks/homarr
-openssl rand -hex 32
+sudo docker compose up -d      # start in background
+sudo docker compose ps         # list running services
+sudo docker compose logs -f    # live logs
+sudo docker compose pull       # download new images
+sudo docker compose down       # stop and remove containers
 ```
 
-Use the generated value as `SECRET_ENCRYPTION_KEY`.
+<!--
+- Teach up/ps/logs first; pull/down are maintenance commands.
+- 2 minutes.
+-->
+
+---
+layout: section
+---
+
+# 4) Deploy Homarr
+
+<!--
+- Transition to capstone deployment.
+-->
+
+---
+
+## Open the Homarr Example
+
+```bash
+cd ~/intro-homelabbing/examples/homarr
+ls
+```
+
+This folder already includes the workshop `compose.yaml`.
+
+<!--
+- If someone cloned elsewhere, adjust the path.
+- 1 minute.
+-->
 
 ---
 
 ## Homarr `compose.yaml`
+
+Already included in the repo at `examples/homarr/compose.yaml`:
 
 ```yaml
 services:
@@ -227,21 +467,43 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 ```
 
+<!--
+- Mention `/var/run/docker.sock` is powerful; keep it read-only.
+- Remind students: compose file and .env must be in same directory.
+- 4 minutes.
+-->
+
 ---
 
-## `.env` file for secrets
+## Create `.env` Secret
 
-Create `.env` in the same folder as `compose.yaml`:
+In `~/intro-homelabbing/examples/homarr`:
+
+1) Generate a key:
 
 ```bash
-SECRET_ENCRYPTION_KEY=<paste-64-char-hex-from-openssl>
+openssl rand -hex 32
 ```
 
-Then deploy:
+2) Create `.env`:
+
+```bash
+echo "SECRET_ENCRYPTION_KEY=<paste-generated-key>" > .env
+cat .env
+```
+
+3) Deploy:
 
 ```bash
 sudo docker compose up -d
 ```
+
+<!--
+- Paste the generated key exactly; no quotes needed.
+- If .env has wrong key name, Homarr will fail to start.
+- Common typo: `SECRET_ENCRYPTION_KEY` misspelled.
+- 4 minutes.
+-->
 
 ---
 
@@ -258,24 +520,70 @@ Open in browser:
 http://<vps-ip>:7575
 ```
 
+<!--
+- Check container status is Up.
+- In logs, look for startup complete/no fatal errors.
+- If page does not load, re-check VPS IP and port `7575`.
+- 3 minutes.
+-->
+
 ---
 
 ## Updating Homarr Later
 
 ```bash
-cd ~/stacks/homarr
+cd ~/intro-homelabbing/examples/homarr
 sudo docker compose pull
 sudo docker compose up -d
 sudo docker image prune -f
 ```
 
+For normal updates, you do **not** need `sudo docker compose down` first.
+
+<!--
+- Explain pull + up -d as standard update flow.
+- `down` is only needed for teardown/troubleshooting.
+- Keep prune optional but useful for small VPS disks.
+- 1 minute.
+-->
+
 ---
+layout: section
+---
+
+# Pizza Time 🍕
+
+Grab a slice and take a short break.
+
+After pizza, try one of the extra stacks in `examples/`.
+
+<!--
+- Encourage students to test whoami/it-tools/uptime-kuma/linkding.
+- 20-30 seconds.
+-->
+
+---
+
+<script setup>
+import csecLogo from './images/UTS.CSS-logo-white.png'
+import progsocLogo from './images/progsoc-white.png'
+</script>
 
 ## Recap
 
 - You logged into a VPS with SSH
-- Installed Docker + Compose on Ubuntu
+- Installed Docker and Compose on a Linux VPS
 - Learned core Compose syntax and commands
-- Deployed a real app (Homarr) with persistent data
+- Deployed a real self-hosted app (Homarr)
 
-Next lab idea: add a reverse proxy + HTTPS with Caddy or Traefik.
+<div style="position:absolute;left:50%;bottom:26px;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:26px;">
+  <img :src="csecLogo" alt="UTS Cyber Security Society" style="height:48px;width:auto;object-fit:contain;" />
+  <div style="width:2px;height:42px;background:#6272a4;opacity:0.8;"></div>
+  <img :src="progsocLogo" alt="ProgSoc" style="height:56px;width:auto;object-fit:contain;" />
+</div>
+
+<!--
+- Close with Q&A.
+- Point to repo examples for post-workshop practice.
+- 2 minutes.
+-->
