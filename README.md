@@ -28,7 +28,7 @@ All examples are in `examples/<stack-name>/compose.yaml`.
 
 | Stack | Purpose | URL/Port |
 | --- | --- | --- |
-| `homarr` | Dashboard app from workshop | `http://<vps-ip>:7575` |
+| `stirling-pdf` | PDF tools app from workshop | `http://<vps-ip>:8080` |
 | `whoami` | Simple container/port check app | `http://<vps-ip>:8081` |
 | `it-tools` | Handy browser-based networking/dev tools | `http://<vps-ip>:8082` |
 | `uptime-kuma` | Basic service uptime monitoring | `http://<vps-ip>:3001` |

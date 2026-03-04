@@ -6,7 +6,7 @@ drawings:
   enabled: false
 info: |
   Workshop deck covering SSH access, Docker install, Docker Compose basics,
-  and deploying Homarr on a VPS.
+  and deploying Stirling PDF on a VPS.
 ---
 
 <style>
@@ -267,7 +267,7 @@ Scan to open the live workshop slides:
 - Connect to the VPS and run first checks
 - Install Docker with the convenience script and verify
 - Learn Compose essentials and core commands
-- Deploy Homarr from `compose.yaml` and validate
+- Deploy Stirling PDF from `compose.yaml` and validate
 - Recap, Q&A, and next steps
 
 <!--
@@ -336,13 +336,13 @@ hostnamectl
 ```
 
 ```bash
-# Show Linux distro and version
-lsb_release -a
+# Check available disk space on root filesystem
+df -h /
 ```
 
 <!--
 - Confirm everyone is logged into the expected account.
-- If `lsb_release` is missing, run `cat /etc/os-release` instead.
+- Quick sanity check that there's enough disk before installs.
 - 3 minutes.
 -->
 
@@ -514,7 +514,7 @@ sudo docker compose down       # stop and remove containers
 layout: section
 ---
 
-# 4) Deploy Homarr
+# 4) Deploy Stirling PDF
 
 <!--
 - Transition to capstone deployment.
@@ -522,10 +522,10 @@ layout: section
 
 ---
 
-## Open the Homarr Example
+## Open the Stirling PDF Example
 
 ```bash
-cd ~/intro-homelabbing/examples/homarr
+cd ~/intro-homelabbing/examples/stirling-pdf
 ls
 ```
 
@@ -538,60 +538,45 @@ This folder already includes the workshop `compose.yaml`.
 
 ---
 
-## Homarr `compose.yaml`
+## Stirling PDF `compose.yaml`
 
-Already included in the repo at `examples/homarr/compose.yaml`:
+Already included in the repo at `examples/stirling-pdf/compose.yaml`:
 
 ```yaml
 services:
-  homarr:
-    image: ghcr.io/homarr-labs/homarr:latest
-    container_name: homarr
+  stirling-pdf:
+    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+    container_name: stirling-pdf
     restart: unless-stopped
     ports:
-      - "7575:7575"
-    environment:
-      - SECRET_ENCRYPTION_KEY=${SECRET_ENCRYPTION_KEY}
-    volumes:
-      - ./appdata:/appdata
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - "8080:8080"
 ```
 
 <!--
-- Mention `/var/run/docker.sock` is powerful; keep it read-only.
-- Remind students: compose file and .env must be in same directory.
+- Minimal stack: no `.env` or secret generation needed.
+- Good beginner app with instant UI and lots of tools.
 - 4 minutes.
 -->
 
 ---
 
-## Create `.env` Secret
+## Start Stirling PDF
 
-In `~/intro-homelabbing/examples/homarr`:
-
-1) Generate a key:
-
-```bash
-openssl rand -hex 32
-```
-
-2) Create `.env`:
-
-```bash
-echo "SECRET_ENCRYPTION_KEY=<paste-generated-key>" > .env
-cat .env
-```
-
-3) Deploy:
+In `~/intro-homelabbing/examples/stirling-pdf`:
 
 ```bash
 sudo docker compose up -d
 ```
 
+Optional: restart if it does not come up first try:
+
+```bash
+sudo docker compose restart
+```
+
 <!--
-- Paste the generated key exactly; no quotes needed.
-- If .env has wrong key name, Homarr will fail to start.
-- Common typo: `SECRET_ENCRYPTION_KEY` misspelled.
+- First launch may take a little longer while the image pulls.
+- Keep this simple: up, ps, browser check.
 - 4 minutes.
 -->
 
@@ -601,28 +586,28 @@ sudo docker compose up -d
 
 ```bash
 sudo docker compose ps
-sudo docker compose logs -f homarr
+sudo docker compose logs -f stirling-pdf
 ```
 
 Open in browser:
 
 ```text
-http://<vps-ip>:7575
+http://<vps-ip>:8080
 ```
 
 <!--
 - Check container status is Up.
 - In logs, look for startup complete/no fatal errors.
-- If page does not load, re-check VPS IP and port `7575`.
+- If page does not load, re-check VPS IP and port `8080`.
 - 3 minutes.
 -->
 
 ---
 
-## Updating Homarr Later
+## Updating Stirling PDF Later
 
 ```bash
-cd ~/intro-homelabbing/examples/homarr
+cd ~/intro-homelabbing/examples/stirling-pdf
 sudo docker compose pull
 sudo docker compose up -d
 sudo docker image prune -f
@@ -664,7 +649,7 @@ import progsocLogo from './images/progsoc-white.png'
 - You logged into a VPS with SSH
 - Installed Docker and Compose on a Linux VPS
 - Learned core Compose syntax and commands
-- Deployed a real self-hosted app (Homarr)
+- Deployed a real self-hosted app (Stirling PDF)
 
 <div style="position:absolute;left:50%;bottom:26px;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:26px;">
   <img :src="csecLogo" alt="UTS Cyber Security Society" style="height:48px;width:auto;object-fit:contain;" />
