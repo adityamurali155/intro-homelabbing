@@ -623,7 +623,38 @@ For normal updates, you do **not** need `sudo docker compose down` first.
 -->
 
 ---
-layout: section
+
+## Better Practice: Use a VPN (Tailscale)
+
+<div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+  <div style="background:linear-gradient(145deg,#373b4b,#2d3040);border:2px solid #5f6886;border-radius:14px;padding:12px 14px;">
+    <p style="margin:0;color:#d2dcff;font-weight:700;font-size:1.04em;">What we did in workshop</p>
+    <ul style="margin:8px 0 0 18px;line-height:1.45;">
+      <li>Opened Stirling PDF on a public IP and port for simplicity</li>
+      <li>Fast for teaching, but not ideal long-term security</li>
+      <li>Any internet-exposed service increases your attack surface</li>
+    </ul>
+  </div>
+  <div style="background:linear-gradient(145deg,#324242,#293738);border:2px solid #6db69f;border-radius:14px;padding:12px 14px;">
+    <p style="margin:0;color:#a5dfcb;font-weight:700;font-size:1.04em;">What to do in a real homelab</p>
+    <ul style="margin:8px 0 0 18px;line-height:1.45;">
+      <li>Use a VPN like Tailscale so services stay private</li>
+      <li>Access your apps over your encrypted tailnet instead of open ports</li>
+      <li>Keep remote access convenient while reducing exposure</li>
+    </ul>
+  </div>
+</div>
+
+<p style="margin-top:10px;padding:8px 12px;border-left:4px solid #d7d08a;background:rgba(215,208,138,0.08);border-radius:8px;">
+  For production-style homelabs, VPN-first access is usually safer than exposing services directly to the internet.
+</p>
+
+<!--
+- Say clearly: public port today was for workshop speed.
+- Recommend VPN-first (Tailscale) for day-to-day homelab use.
+- 1 minute.
+-->
+
 ---
 
 # Pizza Time 🍕
