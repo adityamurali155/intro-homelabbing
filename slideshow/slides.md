@@ -476,7 +476,7 @@ services:
   # Service name used by Compose
   web:
     # Image to run: <repo>:<tag>
-    image: caddy:alpine
+    image: nginx:alpine
     # Port mapping: <host-port>:<container-port>
     ports:
       - "8080:80"
@@ -484,7 +484,7 @@ services:
     restart: unless-stopped
     # Bind mount: <host-path>:<container-path>:<mode>
     volumes:
-      - ./site:/usr/share/caddy:ro
+      - ./html:/usr/share/nginx/html:ro
 ```
 
 <!--
