@@ -545,7 +545,7 @@ Already included in the repo at `examples/stirling-pdf/compose.yaml`:
 ```yaml
 services:
   stirling-pdf:
-    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest-ultra-lite
     container_name: stirling-pdf
     restart: unless-stopped
     ports:
