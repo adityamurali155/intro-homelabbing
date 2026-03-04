@@ -162,10 +162,42 @@ layout: section
 
 ## What Is Homelabbing?
 
-- Running your own services on hardware/VMs you control
-- Practical way to learn Linux, networking, security, and automation
-- Typical projects: dashboards, media stacks, backups, VPNs, monitoring
-- Goal today: deploy one real service on a VPS with a repeatable workflow
+- Building your own mini lab on hardware/VMs you control
+- A place to run real services, break things safely, and learn by doing
+
+<div style="margin-top:12px;background:linear-gradient(145deg,#373b4b,#2d3040);border:2px solid #5f6886;border-radius:14px;padding:12px 14px;">
+  <p style="margin:0;color:#d2dcff;font-weight:700;font-size:1.04em;">Popular homelab use cases</p>
+  <table style="width:100%;margin-top:8px;border-collapse:collapse;">
+    <thead>
+      <tr>
+        <th style="text-align:left;padding:6px 8px;color:#d2dcff;border-bottom:1px solid #5f6886;font-size:0.85em;">Use case</th>
+        <th style="text-align:left;padding:6px 8px;color:#d2dcff;border-bottom:1px solid #5f6886;font-size:0.85em;">What it looks like</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:5px 8px;border-bottom:1px solid rgba(95,104,134,0.5);">Self hosting</td>
+        <td style="padding:5px 8px;border-bottom:1px solid rgba(95,104,134,0.5);">Run popular services on your own hardware for fun/control</td>
+      </tr>
+      <tr>
+        <td style="padding:5px 8px;border-bottom:1px solid rgba(95,104,134,0.5);">Game servers</td>
+        <td style="padding:5px 8px;border-bottom:1px solid rgba(95,104,134,0.5);">Private Minecraft (or similar) servers for friends</td>
+      </tr>
+      <tr>
+        <td style="padding:5px 8px;border-bottom:1px solid rgba(95,104,134,0.5);">Media servers</td>
+        <td style="padding:5px 8px;border-bottom:1px solid rgba(95,104,134,0.5);">One place for music/movies and multi-room streaming</td>
+      </tr>
+      <tr>
+        <td style="padding:5px 8px;border-bottom:1px solid rgba(95,104,134,0.5);">Storage</td>
+        <td style="padding:5px 8px;border-bottom:1px solid rgba(95,104,134,0.5);">Archives, backups, and central file storage</td>
+      </tr>
+      <tr>
+        <td style="padding:5px 8px;">Web hosting</td>
+        <td style="padding:5px 8px;">Host small websites for friends/family for free</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <!--
 - Keep this high-level and beginner-friendly.
@@ -175,24 +207,67 @@ layout: section
 
 ---
 
-## Homelab Starter Stack
+## Why Homelab?
 
-Common technologies:
+<div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+  <div style="background:linear-gradient(145deg,#373b4b,#2d3040);border:2px solid #5f6886;border-radius:14px;padding:12px 14px;">
+    <p style="margin:0;color:#d2dcff;font-weight:700;font-size:1.04em;">Practical benefits</p>
+    <ul style="margin:8px 0 0 18px;line-height:1.45;">
+      <li>Less dependent on hosted services and big platforms</li>
+      <li>Keep control of your apps, data, and settings</li>
+      <li>Still use cloud where it helps; self-host what matters</li>
+    </ul>
+  </div>
+  <div style="background:linear-gradient(145deg,#324242,#293738);border:2px solid #6db69f;border-radius:14px;padding:12px 14px;">
+    <p style="margin:0;color:#a5dfcb;font-weight:700;font-size:1.04em;">Skills and career growth</p>
+    <ul style="margin:8px 0 0 18px;line-height:1.45;">
+      <li>Hands-on practice for certs like CCNA or VCP</li>
+      <li>Hypervisors let you run nested throwaway labs on one machine</li>
+      <li>No enterprise server required to start learning</li>
+    </ul>
+  </div>
+</div>
 
-- Linux (usually Ubuntu LTS), SSH, Docker, Docker Compose
-- Reverse proxy + HTTPS (Caddy, Traefik, or Nginx)
-- DNS/domain basics and environment secrets (`.env`)
-- Monitoring and backups as you grow
-
-Good starter server:
-
-- 2 vCPU, 2-4 GB RAM, 40+ GB SSD
-- Public IPv4 + SSH access, Ubuntu 22.04/24.04 LTS
-- Start with one VPS; scale only after you hit limits
+<p style="margin-top:10px;padding:8px 12px;border-left:4px solid #d7d08a;background:rgba(215,208,138,0.08);border-radius:8px;">
+  Bottom line: homelabs are useful and fun, and they make you better at real systems.
+</p>
 
 <!--
-- Mention old laptops/Raspberry Pi are also valid homelab starting points.
-- For workshop simplicity, we use a single cloud VPS.
+- Frame this as "more control and learning," not "never use cloud."
+- Keep examples relatable: photos, notes, dashboards, bookmarks.
+- 1 minute.
+-->
+
+---
+
+## Where to Start
+
+<div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+  <div style="background:linear-gradient(145deg,#373b4b,#2d3040);border:2px solid #5f6886;border-radius:14px;padding:12px 14px;">
+    <p style="margin:0;color:#d2dcff;font-weight:700;font-size:1.04em;">At home (best first step)</p>
+    <ul style="margin:8px 0 0 18px;line-height:1.45;">
+      <li>Use an old laptop/desktop you already own</li>
+      <li>Or use a Raspberry Pi for a low-power setup</li>
+      <li>Start small and grow only when you need to</li>
+    </ul>
+  </div>
+  <div style="background:linear-gradient(145deg,#324242,#293738);border:2px solid #6db69f;border-radius:14px;padding:12px 14px;">
+    <p style="margin:0;color:#a5dfcb;font-weight:700;font-size:1.04em;">Cloud VPS (today)</p>
+    <ul style="margin:8px 0 0 18px;line-height:1.45;">
+      <li>Great when you want access from anywhere</li>
+      <li>Same setup for everyone in this workshop</li>
+      <li>We are using Debian 12 + SSH + Docker Compose</li>
+    </ul>
+  </div>
+</div>
+
+<p style="margin-top:10px;padding:8px 12px;border-left:4px solid #d7d08a;background:rgba(215,208,138,0.08);border-radius:8px;">
+  Pick the easiest option that gets you practicing this week.
+</p>
+
+<!--
+- Keep this practical and non-intimidating.
+- For workshop simplicity, we use a single cloud VPS today.
 - 2 minutes.
 -->
 
@@ -244,12 +319,12 @@ cd intro-homelabbing
 
 Option B: in GitHub, click `Code` -> `Download ZIP`, then extract it.
 
-Repo URL:
-
-`https://github.com/ProgSoc/intro-homelabbing`
-
-<div style="margin-top:8px;display:flex;justify-content:center;">
-  <img :src="repoQr" alt="QR code for intro-homelabbing repository" style="height:180px;width:180px;border-radius:12px;background:#fff;padding:8px;" />
+<div style="margin-top:6px;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;">
+  <div>
+    <p style="margin:0 0 6px;">Repo URL:</p>
+    <p style="margin:0;"><code>https://github.com/ProgSoc/intro-homelabbing</code></p>
+  </div>
+  <img :src="repoQr" alt="QR code for intro-homelabbing repository" style="height:136px;width:136px;border-radius:12px;background:#fff;padding:8px;" />
 </div>
 
 <!--
@@ -276,6 +351,8 @@ layout: section
 
 For this workshop, everyone logs in with password auth:
 
+Use the exact generated username from your handout (it has `sudo` access).
+
 ```bash
 ssh <user>@<vps-ip>
 ```
@@ -284,7 +361,7 @@ On first connection, type `yes` at the host key prompt, then enter password.
 
 <!--
 - Remind students password won't show while typing.
-- Common issue: wrong username (`root` vs `ubuntu`).
+- Common issue: wrong username (double-check the generated username in the handout).
 - If login fails, verify username first, then password.
 - 2 minutes.
 -->
@@ -341,7 +418,7 @@ rm get-docker.sh
 <!--
 - Run update first, then install script.
 - Mention convenience script is workshop-friendly and quick.
-- Convenience script usually enables/starts Docker on Ubuntu.
+- Convenience script usually enables/starts Docker on Debian.
 - 4 minutes (allow slower VPSs).
 -->
 
